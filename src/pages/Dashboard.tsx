@@ -35,7 +35,7 @@ function Dashboard(): React.ReactElement {
       </Sider>
       <Layout>
         <Header style={{ padding: 0 }} />
-        <Content style={{ height: '85vh' }} >
+        <Content style={{ height: '85vh', padding: '3vh' }} >
           {viewSelected.content}
         </Content>
         <Footer style={{ textAlign: 'center' }}>

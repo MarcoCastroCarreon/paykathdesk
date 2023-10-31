@@ -4,4 +4,5 @@ export type Column = {
   key?: string;
   render?: React.ReactElement | any,
   ellipsis?: boolean
+  editable?: boolean
 };

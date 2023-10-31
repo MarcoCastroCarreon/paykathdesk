@@ -8,7 +8,7 @@ import { ToastContext } from '../../context/toast.context';
 import { Column } from '../../shared/types/column.type';
 import Loader from '../../components/Loader';
 import { DrawerContext } from '../../context/drawer.context';
-import BudgetForm from '../../components/BudgetForm';
+import BudgetWrapper from '../../components/BudgetWrapper';
 
 const { Content } = Layout;
 
@@ -27,7 +27,7 @@ function BudgetsView(): React.ReactElement {
   const [year, setYear] = React.useState<any>();
 
   const onSelectBudget = (budget: Budget) => {
-    setContent(<BudgetForm {...budget} />);
+    setContent(<BudgetWrapper {...budget} />);
     setDrawerTitle('Informacion de Presupuesto');
     setPlacement('right');
     setSize('large');
@@ -134,7 +134,7 @@ function BudgetsView(): React.ReactElement {
         {loading ? (
           <Loader />
         ) : (
-          <Table dataSource={budgets} columns={budgetColumns} />
+          <Table dataSource={budgets} columns={budgetColumns} bordered/>
         )}
       </Content>
     </Layout>
