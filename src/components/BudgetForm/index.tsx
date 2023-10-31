@@ -12,7 +12,7 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import {
   CalculatorOutlined,
   DeleteOutlined,
-  SendOutlined,
+  SaveOutlined,
 } from '@ant-design/icons';
 import { Budget } from '../../shared/types/budget.type';
 import { DrawerContext } from '../../context/drawer.context';
@@ -208,12 +208,12 @@ const BudgetForm = (budget: Budget) => {
 
       <FormItem>
         <Button
-          icon={<SendOutlined />}
+          icon={<SaveOutlined />}
           htmlType="submit"
           type="primary"
           loading={internalLoading}
           disabled={internalLoading}>
-          Enviar
+          Guardar
         </Button>
       </FormItem>
     </Form>
