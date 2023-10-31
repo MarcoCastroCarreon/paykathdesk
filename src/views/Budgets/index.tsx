@@ -120,6 +120,7 @@ function BudgetsView(): React.ReactElement {
               placeholder="Seleccionar Año"
               style={{ width: '20vh' }}
               value={year}
+              disabled={loading}
             />
             <Button
               size="large"
