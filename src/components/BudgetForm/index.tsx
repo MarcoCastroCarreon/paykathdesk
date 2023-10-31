@@ -18,6 +18,8 @@ import { Budget } from '../../shared/types/budget.type';
 import { DrawerContext } from '../../context/drawer.context';
 import { Payment } from '../../shared/types/payment.type';
 import { Column } from '../../shared/types/column.type';
+import moneyFormatter from '../../shared/utils/moneyFormatter';
+import moneyParser from '../../shared/utils/moneyParser';
 
 const { Item: FormItem, useForm } = Form;
 
@@ -31,12 +33,10 @@ const BudgetForm = (budget: Budget) => {
 
   // Actions Functions
   const onChangeField = (fieldsData: Budget): void => {
-    console.log('Field');
     setDisplayBudget({ ...displayBudget, ...fieldsData });
   };
 
-  const onSubmit = (values: Budget): void => {
-    console.log('Values', values);
+  const onSubmit = (_: Budget): void => {
     setInternalLoading(true);
     setTimeout(() => setInternalLoading(false), 3000);
   };
@@ -55,15 +55,11 @@ const BudgetForm = (budget: Budget) => {
     }
   };
 
-  const handleDelete = (id: string) => {
-    console.log('Handle Delete', id);
+  const handleDelete = (name: string): void => {
     const paymentListFiltered = displayBudget.paymentsList?.filter(
-      payment => payment._id != id
+      payment => payment.name != name
     );
 
-    console.log(displayBudget.paymentsList, paymentListFiltered);
-
-    setFieldValue('paymentsList', paymentListFiltered);
     setDisplayBudget({ ...displayBudget, paymentsList: paymentListFiltered });
   };
 
@@ -98,7 +94,7 @@ const BudgetForm = (budget: Budget) => {
           return (
             <Popconfirm
               title="Estás seguro de eliminar?"
-              onConfirm={() => handleDelete(record._id ?? '')}
+              onConfirm={() => handleDelete(record.name ?? '')}
               okText="Sí"
               cancelText="Cancelar">
               <DeleteOutlined
@@ -114,7 +110,6 @@ const BudgetForm = (budget: Budget) => {
 
   // Effects
   useEffect(() => {
-    console.log('Drawer', drawerOpen);
     if (!drawerOpen) {
       resetForm();
       setDisplayBudget({
@@ -164,10 +159,8 @@ const BudgetForm = (budget: Budget) => {
               },
             ]}>
             <InputNumber
-              formatter={value =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-              }
-              parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+              formatter={moneyFormatter}
+              parser={moneyParser}
               value={displayBudget.budget}
               min="0"
               disabled={internalLoading}
@@ -190,10 +183,8 @@ const BudgetForm = (budget: Budget) => {
         <Col span={8}>
           <FormItem<Budget> name="totalPayment" label="Total">
             <InputNumber
-              formatter={value =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-              }
-              parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+              formatter={moneyFormatter}
+              parser={moneyParser}
               value={displayBudget.totalPayment}
               min="0"
               disabled
@@ -204,10 +195,8 @@ const BudgetForm = (budget: Budget) => {
         <Col span={12}>
           <FormItem<Budget> name="remaining" label="Restante">
             <InputNumber
-              formatter={value =>
-                `$ ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ',')
-              }
-              parser={value => value!.replace(/\$\s?|(,*)/g, '')}
+              formatter={moneyFormatter}
+              parser={moneyParser}
               value={displayBudget.remaining}
               min="0"
               disabled
