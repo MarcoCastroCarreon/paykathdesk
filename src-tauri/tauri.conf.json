@@ -8,7 +8,7 @@
   },
   "package": {
     "productName": "paykathdesk",
-    "version": "0.0.1"
+    "version": "1.0.0"
   },
   "tauri": {
     "allowlist": {
@@ -37,7 +37,7 @@
       {
         "fullscreen": false,
         "resizable": true,
-        "title": "paykathdesk",
+        "title": "Pay Kath",
         "width": 1200,
         "height": 800
       }

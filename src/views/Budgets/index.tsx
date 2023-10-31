@@ -1,47 +1,18 @@
-import {
-  Button,
-  DatePicker,
-  Flex,
-  Layout,
-  Table,
-  Typography,
-} from 'antd';
-import React, { useContext } from 'react';
+import { Button, DatePicker, Flex, Layout, Table, Typography } from 'antd';
+import React, { useContext, useMemo } from 'react';
 import { ViewsContext } from '../../context/views.context';
 import { API } from '../../api';
-import { Budget } from './types/budget.type';
+import { Budget } from '../../shared/types/budget.type';
 import useLocalStorage from '../../shared/hooks/localStorage.hook';
 import { ToastContext } from '../../context/toast.context';
 import { Column } from '../../shared/types/column.type';
 import Loader from '../../components/Loader';
+import { DrawerContext } from '../../context/drawer.context';
+import BudgetForm from '../../components/BudgetForm';
 
 const { Content } = Layout;
 
 const { Title } = Typography;
-
-const budgetColumns: Column[] = [
-  {
-    dataIndex: 'date',
-    key: 'date',
-    title: 'Fecha',
-  },
-  {
-    dataIndex: 'budget',
-    key: 'budget',
-    title: 'Cantidad',
-  },
-  {
-    dataIndex: 'totalPayment',
-    key: 'totalPayment',
-    title: 'Pago Total',
-  },
-  {
-    dataIndex: 'edit',
-    key: 'edit',
-    title: '',
-    render: () => <Button>Editar</Button>,
-  },
-];
 
 const { YearPicker } = DatePicker;
 
@@ -50,9 +21,52 @@ function BudgetsView(): React.ReactElement {
   const { getItem, setItem } = useLocalStorage();
   const { sendToast } = useContext(ToastContext);
   const { loading, setLoading } = React.useContext(ViewsContext);
+  const { setContent = () =>{}, setDrawerTitle = () => {}, setPlacement = () => {}, openDrawer= () => {}, setSize = () => {} } = React.useContext(DrawerContext);
 
   const [budgets, setBudgets] = React.useState<Budget[]>([]);
   const [year, setYear] = React.useState<any>();
+
+  const onSelectBudget = (budget: Budget) => {
+    setContent(<BudgetForm {...budget} />);
+    setDrawerTitle('Informacion de Presupuesto');
+    setPlacement('right');
+    setSize('large');
+    openDrawer();
+  }
+
+  const budgetColumns: Column[] = useMemo(
+    () => [
+      {
+        dataIndex: 'date',
+        key: 'date',
+        title: 'Fecha',
+      },
+      {
+        dataIndex: 'budget',
+        key: 'budget',
+        title: 'Cantidad',
+      },
+      {
+        dataIndex: 'totalPayment',
+        key: 'totalPayment',
+        title: 'Pago Total',
+      },
+      {
+        dataIndex: 'remaining',
+        key: 'remaining',
+        title: 'Restante'
+      },
+      {
+        dataIndex: 'edit',
+        key: 'edit',
+        title: '',
+        render: (_: unknown, record: Budget) => (
+            <Button onClick={() => onSelectBudget(record)} >Editar</Button>
+        ),
+      },
+    ],
+    []
+  );
 
   const getBudgets = async (year: number = new Date().getFullYear()) => {
     try {
@@ -83,7 +97,7 @@ function BudgetsView(): React.ReactElement {
   };
 
   const onFilterYear = () => {
-    if(year) getBudgets(year.$y);
+    if (year) getBudgets(year.$y);
   };
 
   React.useEffect(() => {
@@ -99,7 +113,7 @@ function BudgetsView(): React.ReactElement {
             justifyContent: 'space-around',
             alignItems: 'center',
           }}>
-          <Title>Budgets</Title>
+          <Title>Presupuestos</Title>
           <Flex>
             <YearPicker
               onChange={onChangeYear}
@@ -107,7 +121,11 @@ function BudgetsView(): React.ReactElement {
               style={{ width: '20vh' }}
               value={year}
             />
-            <Button size="large" onClick={onFilterYear} loading={loading} disabled={loading} >
+            <Button
+              size="large"
+              onClick={onFilterYear}
+              loading={loading}
+              disabled={loading}>
               Filtrar
             </Button>
           </Flex>

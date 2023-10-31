@@ -7,9 +7,7 @@ type ViewContextType = {
   setViewSelected: Function;
   onSelectView: Function;
   loading: boolean;
-  setLoading: Function;
-  toggleAlert: boolean;
-  setToggleAlert: Function;
+  setLoading: (value: boolean) => any;
 };
 
 export const ViewsContext = React.createContext<ViewContextType>({} as any);
@@ -19,7 +17,6 @@ export const ViewsProvider = ({ children }: any) => {
     Views['budgets']
   );
   const [loading, setLoading] = React.useState<boolean>(false);
-  const [toggleAlert, setToggleAlert] = React.useState<boolean>(false);
 
   const onSelectView = (key: ViewKeys): void => {
     setViewSelected(Views[key]);
@@ -33,8 +30,6 @@ export const ViewsProvider = ({ children }: any) => {
         onSelectView,
         loading,
         setLoading,
-        toggleAlert,
-        setToggleAlert,
       }}>
       {children}
     </ViewsContext.Provider>

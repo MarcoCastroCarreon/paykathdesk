@@ -7,13 +7,13 @@ import Dashboard from './pages/Dashboard';
 function App() {
   return (
     <div>
-      <DrawerProvider>
-        <ToastProvider>
-          <ViewsProvider>
+      <ViewsProvider>
+        <DrawerProvider>
+          <ToastProvider>
             <Dashboard />
-          </ViewsProvider>
-        </ToastProvider>
-      </DrawerProvider>
+          </ToastProvider>
+        </DrawerProvider>
+      </ViewsProvider>
     </div>
   );
 }
