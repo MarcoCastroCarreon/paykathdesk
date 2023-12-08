@@ -1,7 +1,7 @@
 import { Expense } from "../../shared/types/expense.type";
 
 
-const ExpensesList = (expensesList?: Expense[]) => {
+const ExpensesList = () => {
     return <>LISTA AQUI!</>
 }
 

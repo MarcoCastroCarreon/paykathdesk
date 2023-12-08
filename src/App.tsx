@@ -1,5 +1,6 @@
 import './App.css';
 import DrawerProvider from './context/drawer.context';
+import ModalProvider from './context/modal.context';
 import ToastProvider from './context/toast.context';
 import { ViewsProvider } from './context/views.context';
 import Dashboard from './pages/Dashboard';
@@ -7,13 +8,15 @@ import Dashboard from './pages/Dashboard';
 function App() {
   return (
     <div>
-      <ViewsProvider>
-        <DrawerProvider>
-          <ToastProvider>
-            <Dashboard />
-          </ToastProvider>
-        </DrawerProvider>
-      </ViewsProvider>
+      <ToastProvider>
+        <ViewsProvider>
+          <ModalProvider>
+            <DrawerProvider>
+              <Dashboard />
+            </DrawerProvider>
+          </ModalProvider>
+        </ViewsProvider>
+      </ToastProvider>
     </div>
   );
 }

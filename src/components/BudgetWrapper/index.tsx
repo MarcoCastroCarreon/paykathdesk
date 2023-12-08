@@ -1,24 +1,24 @@
 import { useMemo } from 'react';
-import { Budget } from '../../shared/types/budget.type';
+import { BudgetFormObj } from '../../shared/types/budget.type';
 import { Tabs } from 'antd';
 import BudgetForm from '../BudgetForm';
 import ExpensesList from '../ExpensesList';
 
-const BudgetWrapper = (budget: Budget) => {
+const BudgetWrapper = (budget: BudgetFormObj) => {
   const tabs = useMemo(
     () => [
       {
         key: '1',
         label: 'Presupuesto',
-        children: <BudgetForm {...budget} />
+        children: <BudgetForm {...budget} mode='update'/>
       },
       {
         key: '2',
         label: 'Gastos',
-        children: <ExpensesList {...[]} />
+        children: <ExpensesList />
       },
     ],
-    []
+    [budget]
   );
 
   return <Tabs defaultActiveKey='1' items={tabs} />;

@@ -1,6 +1,6 @@
 import React from 'react';
 import BudgetsView from './Budgets';
-import { ReadOutlined } from '@ant-design/icons';
+import { PieChartOutlined, ReadOutlined } from '@ant-design/icons';
 import { ViewKeys, ViewStructure } from './types/view.type';
 
 const Views: Record<ViewKeys, ViewStructure> = {
@@ -12,8 +12,8 @@ const Views: Record<ViewKeys, ViewStructure> = {
     },
     'expenses': {
       content: <div></div>,
-      icon: React.createElement(ReadOutlined),
-      label: 'Presupuestos',
+      icon: React.createElement(PieChartOutlined),
+      label: 'Gastos',
       key: 'expenses',
     },
   }

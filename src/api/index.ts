@@ -12,15 +12,13 @@ export namespace API {
     INTERNAL_SERVER_ERROR = 500,
   }
 
-  
-
   interface Result<T> {
     data: T | any;
     statusCode: HttpStatus | number;
   }
 
   interface RequestState<T> {
-    error?: Error | unknown | any;
+    error?: Error | any;
     result: Result<T>;
     statusCode?: HttpStatus;
   }
@@ -65,11 +63,11 @@ export namespace API {
     path,
     signal,
     requestType = 'get',
-    body = undefined,
+    body,
     query,
     pathParams,
   }: RequestConfig): Promise<RequestState<T>> {
-    const state: RequestState<T> = { result: {} as Result<T> };
+    let state: RequestState<T> = { result: {} as Result<T> };
     try {
       const API_URL = await getEnv('API_URL');
       let requestUrl: string = `${API_URL}${path}`;
@@ -86,9 +84,15 @@ export namespace API {
         body: JSON.stringify(body),
         method: requestType,
       });
-      state.result = await response.json();
+
+      if (![200, 201, 202, 204].includes(response.status)) {
+        state = await response.json();
+      } else if (response.status !== 204) {
+        state.result = await response.json();
+      }
       state.statusCode = response.status;
     } catch (error: any) {
+      console.log('API Error', error);
       state.error = error.message;
       state.statusCode = error.status ?? HttpStatus.INTERNAL_SERVER_ERROR;
     }
