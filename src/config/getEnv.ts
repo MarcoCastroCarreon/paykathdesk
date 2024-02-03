@@ -1,13 +1,9 @@
-import { invoke } from "@tauri-apps/api";
-
 async function readEnvVariable(variableName: string): Promise<any> {
-
     try {
-      const result = await invoke('get_environment_variable', { name: variableName });
-
-    return result
+      return import.meta.env[`APP_${variableName}`];
     } catch (error: any) {
-      throw error.message;
+      console.log('Error ENV', error);
+      throw error;
     }
 
 }

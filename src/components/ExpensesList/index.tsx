@@ -1,4 +1,4 @@
-import { Expense } from "../../shared/types/expense.type";
+// import { Expense } from "../../shared/types/expense.type";
 
 
 const ExpensesList = () => {

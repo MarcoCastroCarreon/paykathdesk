@@ -69,6 +69,7 @@ export namespace API {
   }: RequestConfig): Promise<RequestState<T>> {
     let state: RequestState<T> = { result: {} as Result<T> };
     try {
+      console.log(import.meta.env);
       const API_URL = await getEnv('API_URL');
       let requestUrl: string = `${API_URL}${path}`;
       if (pathParams) {

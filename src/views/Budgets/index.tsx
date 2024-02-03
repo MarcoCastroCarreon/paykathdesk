@@ -126,6 +126,7 @@ function BudgetsView(): React.ReactElement {
       setLoading(false);
     } catch (error) {
       controller.abort();
+      setLoading(false);
     }
   };
 

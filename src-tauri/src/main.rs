@@ -2,13 +2,13 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 
 #[tauri::command]
-fn get_environment_variable (name: &str) -> String {
-  std::env::var(name).unwrap_or_else(|_| "".to_string())
+fn get_env(name: &str) -> String {
+    std::env::var(String::from(name)).unwrap_or(String::from(""))
 }
 
 fn main() {
     tauri::Builder::default()
-        .invoke_handler(tauri::generate_handler![get_environment_variable])
+        .invoke_handler(tauri::generate_handler![get_env])
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
